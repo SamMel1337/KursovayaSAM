@@ -1,7 +1,8 @@
 import json
 import logging
-import pandas as pd
 from datetime import datetime, timedelta
+
+import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -11,6 +12,8 @@ def get_expenses_by_category(transactions_df: str, category: str, reference_date
     """
     Функция для получения расходов по категории за трехмесячный период.
     """
+
+    # Чтение данных из Excel файла
     df = pd.read_excel(transactions_df, sheet_name="Отчет по операциям")
     df["Дата операции"] = pd.to_datetime(df["Дата операции"], dayfirst=True)
 
@@ -24,7 +27,7 @@ def get_expenses_by_category(transactions_df: str, category: str, reference_date
             (df["Категория"] == category)
             & (df["Дата операции"] >= three_months_ago)
             & (df["Дата операции"] <= reference_date)
-        ]
+            ]
 
         # Суммируем траты
         total_expenses = filtered_df["Сумма операции"].sum()
@@ -44,6 +47,10 @@ def get_expenses_by_category(transactions_df: str, category: str, reference_date
 
         logger.info(f"Expenses calculated for category: {category}")
         return json.dumps(result, ensure_ascii=False)
+
+    except Exception as e:
+        logger.error(f"Ошибка при обработке данных: {e}")
+        return json.dumps({"error": str(e)}, ensure_ascii=False)
 
     except Exception as e:
         logger.error(f"Error while calculating expenses: {e}")

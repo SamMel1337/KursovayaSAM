@@ -1,8 +1,8 @@
-import unittest
-import pandas as pd
-from io import BytesIO
-from datetime import datetime
 import json
+import unittest
+from io import BytesIO
+
+import pandas as pd
 
 from src.reports import get_expenses_by_category
 

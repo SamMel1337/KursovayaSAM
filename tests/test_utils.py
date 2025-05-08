@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import patch
-from datetime import datetime
 
 # Предполагаем, что функция get_time_for_greeting определена в файле greetings.py
 from src.utils import get_time_for_greeting

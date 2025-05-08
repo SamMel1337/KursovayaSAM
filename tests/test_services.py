@@ -1,8 +1,8 @@
-import unittest
-from unittest.mock import patch, MagicMock
-import pandas as pd
 import json
-import logging
+import unittest
+from unittest.mock import patch
+
+import pandas as pd
 
 # Предполагаем, что функция analyze_cashback определена в файле cashback_analysis.py
 from src.services import analyze_cashback

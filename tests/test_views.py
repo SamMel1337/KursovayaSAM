@@ -1,9 +1,9 @@
-import unittest
-from unittest.mock import patch, MagicMock
 import json
+import unittest
+from unittest.mock import MagicMock, patch
 
 # Replace 'cashback' with the actual name of your module
-from src.views import main_info, mai_per, new_main
+from src.views import mai_per, main_info, new_main
 
 
 class TestCashbackFunctions(unittest.TestCase):

@@ -1,10 +1,10 @@
 import json
 import logging
 from datetime import datetime
+from typing import Dict, List
 import pandas as pd
-from pandas import DataFrame
 import requests
-from typing import List, Dict
+from pandas import DataFrame
 
 logging.basicConfig(level=logging.INFO)
 URL = "https://api.apilayer.com/currency_data/convert"
@@ -47,22 +47,28 @@ def get_path_and_period(path_to_file: str, period_date: list) -> DataFrame:
     return sorted_df
 
 
-def get_card_with_spend(sorted_df: DataFrame) -> list[dict]:
+def get_card_with_spend(sorted_df: DataFrame) -> List[Dict[str, float]]:
     """
-    Фукнциия принимает DataFrame и возращает список с расходами
+    Функция принимает DataFrame и возвращает список с расходами.
     """
     carts_spends = []
     card_sorted = sorted_df[["Номер карты", "Сумма операции", "Кэшбэк", "Сумма операции с округлением"]]
-    for g, j in card_sorted.iterrows():
-        if j["Сумма операции"] < 0:
-            last_digits = str(j["Сумма операции"]).replace("*", "")
-            total_spent = j["Сумма операции с округлением"]
+
+    for _, row in card_sorted.iterrows():
+        if row["Сумма операции"] < 0:
+            last_digits = str(row["Номер карты"])[-4:]  # Получаем последние 4 цифры номера карты
+            total_spent = abs(row["Сумма операции с округлением"])  # Берем абсолютное значение
             cashback = total_spent // 100
-            j = {"last_digits": last_digits, "total_spent": total_spent, "cashback": cashback}
-            carts_spends.append(j)
+
+            spend_info = {
+                "last_digits": last_digits,
+                "total_spent": total_spent,
+                "cashback": cashback
+            }
+            carts_spends.append(spend_info)
+
     logging.info("Функция выполнена успешно, формирование ответа")
     return carts_spends
-
 
 def get_top_trans(sorted_df: DataFrame, top: int) -> List[Dict[str, str]]:
     """
@@ -107,4 +113,4 @@ def get_ccurent(part_json: str) -> List[Dict[str, str]]:
                 cer_an = round(resuit["resuit"], 2)
                 curen.append({"ccurrency": f"{curren_rate}", "rate": f"{cer_an}"})
             logging.info("Функция выполнена успешно, формирование ответа")
-            return curen
+        return curen

@@ -1,13 +1,19 @@
 import json
 import logging
-import pandas as pd
 from datetime import datetime
+from typing import Union
+
+import pandas as pd
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
 
 
-def analyze_cashback(year: int, month: int, excel_file: str):
+def analyze_cashback(year: int, month: int, excel_file: str) -> Union[str, None]:
+    """
+    Функция анализирует кэшбэк за указанный год и месяц,
+    читая данные из Excel файла.
+    """
     # Логирование начала выполнения функции
     logging.info(f"Запуск функции с годом: {year}, месяц: {month}")
 
@@ -17,6 +23,14 @@ def analyze_cashback(year: int, month: int, excel_file: str):
     except Exception as e:
         logging.error(f"Ошибка при чтении файла Excel: {e}")
         return json.dumps({"error": "Ошибка при чтении файла Excel"}, ensure_ascii=False)
+
+    # Здесь можно добавить логику анализа данных
+    # Например, фильтрация по году и месяцу и расчет кэшбэка
+
+    # Пример возврата успешного результата (замените на вашу логику)
+    result = {"message": "Анализ завершен успешно"}
+
+    return json.dumps(result, ensure_ascii=False)
 
     # Проверка наличия необходимых колонок
     required_columns = ["Дата платежа", "Категория", "Кэшбэк"]

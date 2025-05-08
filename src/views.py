@@ -1,18 +1,15 @@
 import json
-from typing import Any, Dict, Optional
-
-import pandas as pd
-from pandas import DataFrame
+from typing import Optional
 
 from src.reports import get_expenses_by_category
 from src.services import analyze_cashback
 from src.utils import (
-    get_time_for_greeting,
+    get_card_with_spend,
+    get_ccurent,
     get_data_time,
     get_path_and_period,
-    get_card_with_spend,
+    get_time_for_greeting,
     get_top_trans,
-    get_ccurent,
 )
 
 
